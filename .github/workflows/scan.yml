@@ -1,0 +1,19 @@
+name: Sentinel Security Audit
+
+on: [push, pull_request]
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Run Sentinel
+        uses: HarshBasrani/sentinel-action@v0.3.2  # Using your latest stable version
+        with:
+          # We scan for TS/JS files (even if none exist yet, it will just audit package.json)
+          source_globs: 'src/**/*.{ts,tsx,js,jsx}'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          dashboard_url: ${{ secrets.SENTINEL_URL }}
+          project_token: ${{ secrets.SENTINEL_TOKEN }}
